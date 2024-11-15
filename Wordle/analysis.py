@@ -56,3 +56,20 @@ future_values = X[-1:]  # Taking the latest feature row for prediction
 predicted_value_rf = model_rf.predict(future_values)
 
 print(f"Predicted reported results on March 1, 2023 (Random Forest): {predicted_value_rf[0]}")
+
+#I think I did this completely wrong, Idk how to plot the # reported depending on 
+# the percentage wins tries. 
+
+# # Calculate the sum of "reported" for each of the columns ["1", "2", "3", "4", "5", "6", "X"]
+# percentWinColumns = ["1", "2", "3", "4", "5", "6", "X"]
+# reported_totals = [df[col].sum() for col in percentWinColumns]
+
+# # Create the bar chart
+# plt.figure(figsize=(10, 6))
+# plt.bar(percentWinColumns, reported_totals, color='skyblue', edgecolor='black')
+
+# # Add labels and title
+# plt.xlabel("Columns (1, 2, 3, 4, 5, 6, X)")
+# plt.ylabel("Total Reported Results")
+# plt.title("Reported Results Distribution Across Tries")
+# plt.show()

@@ -114,7 +114,9 @@ plt.xticks(rotation=45)
 plt.show()
 
 easy = []
+h_easy = []
 hard = []
+h_hard = []
 e_perc = (df["reported"], df["2"] + df["3"] + df["4"])
 h_perc = (df["reported"], df["5"] + df["6"] + df["X"])
 
@@ -126,9 +128,11 @@ for index, row in df.iterrows():
     h_perc = row["5"] + row["6"] + row["X"]
 
     if e_perc >= 50:
-        easy.append(row["hard"])
+        easy.append(row["reported"])
+        h_easy.append(row["hard"])
     if h_perc >= 50:
-        hard.append(row["hard"])
+        hard.append(row["reported"])
+        h_hard.append(row["hard"])
 
 h_avg = sum(hard) / len(hard)
 e_avg = sum(easy) / len(easy)

@@ -86,22 +86,22 @@ def c_count(word):
             cs += 1
     return cs
 
-c_list = []
 #loops through every word in data and runs the c_count function on them and adds them to a list
+c_list = []
 for word in df["word"]:
     c_list.append(c_count(word))
 
 # Add number of consonants in word as column
 df["consonants"] = c_list
 
-#groups the average number of reports by the number of consonants found in the word
+# groups the average number of reports by the number of consonants found in the word
 reported_by_consonants = df.groupby('consonants')['reported'].mean()
-#groups the average number of hard reports by the number of consonants found in the word
+# groups the average number of hard reports by the number of consonants found in the word
 reported_by_consonants_hard = df.groupby('consonants')['hard'].mean()
 print(reported_by_consonants)
 print(reported_by_consonants_hard)
 
-#graphs the consonant data
+# graphs the consonant data
 plt.figure(figsize=(10, 6))
 reported_by_consonants_hard.plot(kind='bar', color='skyblue')
 # reported_by_day_hard.plot(kind='bar', color='blue')
@@ -109,21 +109,29 @@ plt.title("Number of Reported Results by Number of Consonants in Word")
 plt.xticks(rotation=45)
 plt.show()
 
+
+"""
+Below calculates the average number of reports grouped by difficulty of the word.
+If the majority of solved attempts took 2-4 tries the word is categorized as easy.
+If the majority of solved attempts took 5-6+ tries the word is categorized as hard.
+Solved attempts that took 1 try are omitted since this is lucked based and has no
+correlation with the actual difficulty of the word.
+"""
 easy = []
 h_easy = []
 hard = []
 h_hard = []
-e_perc = (df["reported"], df["2"] + df["3"] + df["4"])
-h_perc = (df["reported"], df["5"] + df["6"] + df["X"])
-
-h_avg = 0
-
 for index, row in df.iterrows():
 
+    # Easy percentage == percentage of 2 tries, 3 tries and 4 tries solutions
     e_perc = row["2"] + row["3"] + row["4"]
+
+    # Hard percentage == percentage of 5 tries, 6 tries and 6+ tries solutions
     h_perc = row["5"] + row["6"] + row["X"]
 
+
     if e_perc >= 50:
+        # Make sure to store data for regular reports and hard mode reports
         easy.append(row["reported"])
         h_easy.append(row["hard"])
 
@@ -137,22 +145,25 @@ e_avg = sum(easy) / len(easy)
 h_avg_hard = sum(h_hard) / len(h_hard)
 e_avg_hard = sum(h_easy) / len(h_easy)
 
+# Average number of regular reports for easy and hard words.
 print("REGULAR REPORTS")
 print(f"Easy Words: {e_avg}")
 print(f"Hard Words: {h_avg}")
 
+# Average number of hard mode reports for easy and hard words.
 print("HARD MODE REPORTS")
 print(f"Easy Words: {e_avg_hard}")
 print(f"Hard Words: {h_avg_hard}")
+
+# Bar plot: Average number of regular reports for easy and hard words.
 plt.figure(figsize=(10, 8))
 plt.bar(["Easy Words", "Hard Words"], [e_avg, h_avg], color="skyblue")
-# , "Hard: Easy Words", "Hard: Hard Words", e_avg_hard, h_avg_hard
-# reported_by_day_hard.plot(kind='bar', color='blue')
 plt.title("Average Reports for Easy Words (2-4 tries) and Hard Words (5-6+ tries)")
 plt.xlabel("Easy vs. Hard Words")
 plt.xticks(rotation=45)
 plt.show()
 
+# Bar plot: Average number of hard mode reports for easy and hard words.
 plt.figure(figsize=(10, 8))
 plt.bar(["Easy Words", "Hard Words"], [e_avg_hard, h_avg_hard], color="skyblue")
 plt.title("Average Reports in Hard Mode for Easy Words (2-4 tries) and Hard Words (5-6+ tries)")

@@ -4,22 +4,27 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 
 df = pd.read_excel("Problem_C_Data_Wordle.xlsx", usecols="B:M")
-
 # Date, Contest #, Word, # of reported results, # in hard mode, 1 try, 2 tries, 3 tries..
 df.columns = ["date", "contest", "word", "reported", "hard", "1", "2", "3", "4", "5", "6", "X"]
 
+# Changes the dates all to the form of year-month-day
 df['date'] = pd.to_datetime(df['date'], format="%Y-%m-%d")
 
+# makes another column called 'day_of_week' and uses the date from the 'date' column to detemine which day of the week it is
 df['day_of_week'] = df['date'].dt.day_name()
+
 
 df.set_index("date", inplace=True)
 daily_results = df["reported"]
 
+# calculates the mean by total reported for each day of the week
 reported_by_day = df.groupby('day_of_week')['reported'].mean()
+# calculates the mean by total mean for each day of the week
 reported_by_day_hard = df.groupby('day_of_week')['hard'].mean()
 
-print(reported_by_day)
-print(reported_by_day_hard)
+# print(reported_by_day)
+# print(reported_by_day_hard)
+# print(df)
 
 # Order the days of the week correctly
 ordered_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -32,7 +37,7 @@ reported_by_day.plot(kind='bar', color='skyblue')
 # reported_by_day_hard.plot(kind='bar', color='blue')
 plt.title("Number of Reported Results by Day of the Week")
 plt.xticks(rotation=45)
-#plt.show()
+# plt.show()
 
 
 # Prepare lagged features
@@ -56,9 +61,6 @@ future_values = X[-1:]  # Taking the latest feature row for prediction
 predicted_value_rf = model_rf.predict(future_values)
 
 print(f"Predicted reported results on March 1, 2023 (Random Forest): {predicted_value_rf[0]}")
-
-
-
 
 
 """

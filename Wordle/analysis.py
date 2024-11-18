@@ -145,7 +145,9 @@ print(f"Hard: {h_avg}")
 data1 = [1, 2, 3, 4, 5]
 data2 = [6, 7, 8, 9, 10]
 
-# Perform t-test
+# Perform t-test for normal reports
 t_statistic, p_value = ttest_ind(easy, hard)
-
-print("p-value:", p_value, " >.05 therefore not statistically significant")
+print("reported p-value:", p_value, " >.05 therefore not statistically significant")
+#T-test for hard reports
+h_t_statistic, h_p_value = ttest_ind(h_easy, h_hard)
+print("hard p-value:", h_p_value, " >.05 therefore not statistically significant")

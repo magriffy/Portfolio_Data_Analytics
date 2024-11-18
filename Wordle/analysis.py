@@ -83,24 +83,28 @@ def c_count(word):
     consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y",
                   "z"]
     cs = 0
+    #loops through each work to detect number of consonants
     for l in word:
         if l in consonants:
             cs += 1
     return cs
 
 c_list = []
-
+#loops through every word in data and runs the c_count function on them and adds them to a list
 for word in df["word"]:
     c_list.append(c_count(word))
 
 # Add number of consonants in word as column
 df["consonants"] = c_list
 
+#groups the average number of reports by the number of consonants found in the word
 reported_by_consonants = df.groupby('consonants')['reported'].mean()
+#groups the average number of hard reports by the number of consonants found in the word
 reported_by_consonants_hard = df.groupby('consonants')['hard'].mean()
 print(reported_by_consonants)
 print(reported_by_consonants_hard)
 
+#graphs the consonant data
 plt.figure(figsize=(10, 6))
 reported_by_consonants_hard.plot(kind='bar', color='skyblue')
 # reported_by_day_hard.plot(kind='bar', color='blue')

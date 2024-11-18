@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestRegressor
 from scipy.stats import ttest_ind
 
 df = pd.read_excel("Problem_C_Data_Wordle.xlsx", usecols="B:M")
-# Date, Contest #, Word, # of reported results, # in hard mode, 1 try, 2 tries, 3 tries..
+# Date, Contest Num., Word, Num. of reported results, Num. in hard mode, 1 try, 2 tries, 3 tries..
 df.columns = ["date", "contest", "word", "reported", "hard", "1", "2", "3", "4", "5", "6", "X"]
 
 # Changes the dates all to the form of year-month-day
@@ -22,10 +22,6 @@ daily_results = df["reported"]
 reported_by_day = df.groupby('day_of_week')['reported'].mean()
 # calculates the mean by total mean for each day of the week
 reported_by_day_hard = df.groupby('day_of_week')['hard'].mean()
-
-# print(reported_by_day)
-# print(reported_by_day_hard)
-# print(df)
 
 # Order the days of the week correctly
 ordered_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -130,6 +126,7 @@ for index, row in df.iterrows():
     if e_perc >= 50:
         easy.append(row["reported"])
         h_easy.append(row["hard"])
+
     if h_perc >= 50:
         hard.append(row["reported"])
         h_hard.append(row["hard"])
@@ -137,8 +134,31 @@ for index, row in df.iterrows():
 h_avg = sum(hard) / len(hard)
 e_avg = sum(easy) / len(easy)
 
-print(f"Easy: {e_avg}")
-print(f"Hard: {h_avg}")
+h_avg_hard = sum(h_hard) / len(h_hard)
+e_avg_hard = sum(h_easy) / len(h_easy)
+
+print("REGULAR REPORTS")
+print(f"Easy Words: {e_avg}")
+print(f"Hard Words: {h_avg}")
+
+print("HARD MODE REPORTS")
+print(f"Easy Words: {e_avg_hard}")
+print(f"Hard Words: {h_avg_hard}")
+plt.figure(figsize=(10, 8))
+plt.bar(["Easy Words", "Hard Words"], [e_avg, h_avg], color="skyblue")
+# , "Hard: Easy Words", "Hard: Hard Words", e_avg_hard, h_avg_hard
+# reported_by_day_hard.plot(kind='bar', color='blue')
+plt.title("Average Reports for Easy Words (2-4 tries) and Hard Words (5-6+ tries)")
+plt.xlabel("Easy vs. Hard Words")
+plt.xticks(rotation=45)
+plt.show()
+
+plt.figure(figsize=(10, 8))
+plt.bar(["Easy Words", "Hard Words"], [e_avg_hard, h_avg_hard], color="skyblue")
+plt.title("Average Reports in Hard Mode for Easy Words (2-4 tries) and Hard Words (5-6+ tries)")
+plt.xlabel("Easy vs. Hard Words")
+plt.xticks(rotation=45)
+plt.show()
 
 #t test
 # Sample data

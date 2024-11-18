@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
+from scipy.stats import ttest_ind
 
 df = pd.read_excel("Problem_C_Data_Wordle.xlsx", usecols="B:M")
 # Date, Contest #, Word, # of reported results, # in hard mode, 1 try, 2 tries, 3 tries..
@@ -134,3 +135,13 @@ e_avg = sum(easy) / len(easy)
 
 print(f"Easy: {e_avg}")
 print(f"Hard: {h_avg}")
+
+#t test
+# Sample data
+data1 = [1, 2, 3, 4, 5]
+data2 = [6, 7, 8, 9, 10]
+
+# Perform t-test
+t_statistic, p_value = ttest_ind(easy, hard)
+
+print("p-value:", p_value, " >.05 therefore not statistically significant")

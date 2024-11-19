@@ -34,7 +34,7 @@ reported_by_day.plot(kind='bar', color='skyblue')
 # reported_by_day_hard.plot(kind='bar', color='blue')
 plt.title("Number of Reported Results by Day of the Week")
 plt.xticks(rotation=45)
-# plt.show()
+plt.show()
 
 
 # Prepare lagged features

@@ -1,3 +1,11 @@
+"""
+Authors: Ryan Quirk, Huntley Hedrick, Matthew Griffith
+Files: Problem_C_Data_wordle.xlse and analysis.py
+Description: This file takes the data from the xlsx file and does analysis on it.
+How to use: put the xlsx file and the py file within the same folder. run the py file
+while in the directory that the two files are in.
+"""
+
 import pandas as pd
 from datetime import datetime
 import matplotlib.pyplot as plt
